@@ -3,84 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serious Question 😏</title>
+<title>Important Question 😏</title>
 
 <style>
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(135deg, #141e30, #243b55);
     font-family: Arial, sans-serif;
-    overflow: hidden;
     color: white;
+    overflow: hidden;
     text-align: center;
 }
 
-.container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+.center-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-h1 {
-    margin-top: 80px;
-    font-size: 28px;
+input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
 }
 
 button {
-    padding: 12px 25px;
-    font-size: 18px;
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    position: absolute;
+    margin-top: 10px;
 }
 
 #yesBtn {
     background-color: #00c853;
     color: white;
+    position: absolute;
     left: 40%;
-    top: 55%;
+    top: 60%;
 }
 
 #noBtn {
     background-color: #d50000;
     color: white;
+    position: absolute;
     left: 55%;
-    top: 55%;
-    transition: 0.2s;
+    top: 60%;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Are you Gay? 😏</h1>
-    <button id="yesBtn" onclick="yesClicked()">Yes</button>
-    <button id="noBtn">No</button>
+<div id="step1" class="center-box">
+    <h2>Enter your name 😏</h2>
+    <input type="text" id="username" placeholder="Your name">
+    <br>
+    <button onclick="startPrank()">Continue</button>
 </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
+let personName = "";
 
-function moveButton() {
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
+function startPrank() {
+    personName = document.getElementById("username").value.trim();
+    if (personName === "") {
+        alert("Enter your name first 😏");
+        return;
+    }
 
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    document.body.innerHTML = `
+        <h2 style="margin-top:60px;">
+            Hi ${personName}, how are you? <br>
+            I have an important question for you 😏
+        </h2>
 
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+        <h1 style="margin-top:40px;">Are you Gay? 😏</h1>
+
+        <button id="yesBtn" onclick="yesClicked()">Yes</button>
+        <button id="noBtn">No</button>
+    `;
+
+    activateNoButton();
 }
 
-noBtn.addEventListener("mouseover", moveButton);
-noBtn.addEventListener("touchstart", moveButton);
+function activateNoButton() {
+    const noBtn = document.getElementById("noBtn");
+
+    function moveButton(e) {
+        const rect = noBtn.getBoundingClientRect();
+
+        const mouseX = e.touches ? e.touches[0].clientX : e.clientX;
+        const mouseY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const distance = Math.hypot(
+            mouseX - (rect.left + rect.width / 2),
+            mouseY - (rect.top + rect.height / 2)
+        );
+
+        if (distance < 120) {
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+
+            noBtn.style.left = Math.random() * maxX + "px";
+            noBtn.style.top = Math.random() * maxY + "px";
+        }
+    }
+
+    document.addEventListener("mousemove", moveButton);
+    document.addEventListener("touchmove", moveButton);
+}
 
 function yesClicked() {
     document.body.innerHTML = `
@@ -90,11 +127,16 @@ function yesClicked() {
             justify-content:center;
             align-items:center;
             flex-direction:column;
-            font-size:26px;
             background:linear-gradient(135deg,#ff512f,#dd2476);
-            color:white;">
-            <h1>It's okay 😎</h1>
-            <p>You are still my friend 🤝😂</p>
+            color:white;
+            padding:20px;
+            text-align:center;">
+            <h1 style="font-size:32px;">
+                Oh lelele 😂
+            </h1>
+            <p style="font-size:24px;">
+                Koi baat nahi ${personName} 🤝😎
+            </p>
         </div>
     `;
 }
