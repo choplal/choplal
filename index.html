@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Important Question 🤔</title>
+<title>Serious Question 😏</title>
 
 <style>
 body {
@@ -22,10 +22,12 @@ body {
 
 .container {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 h1 {
-    margin-bottom: 30px;
+    margin-top: 80px;
     font-size: 28px;
 }
 
@@ -35,18 +37,22 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin: 10px;
+    position: absolute;
 }
 
 #yesBtn {
     background-color: #00c853;
     color: white;
+    left: 40%;
+    top: 55%;
 }
 
 #noBtn {
     background-color: #d50000;
     color: white;
-    position: absolute;
+    left: 55%;
+    top: 55%;
+    transition: 0.2s;
 }
 </style>
 </head>
@@ -62,15 +68,19 @@ button {
 <script>
 const noBtn = document.getElementById("noBtn");
 
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
 noBtn.addEventListener("mouseover", moveButton);
 noBtn.addEventListener("touchstart", moveButton);
-
-function moveButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-}
 
 function yesClicked() {
     document.body.innerHTML = `
@@ -80,11 +90,11 @@ function yesClicked() {
             justify-content:center;
             align-items:center;
             flex-direction:column;
-            font-size:28px;
+            font-size:26px;
             background:linear-gradient(135deg,#ff512f,#dd2476);
             color:white;">
-            <h1>I knew it 😎🔥</h1>
-            <p>Welcome to the club 😂</p>
+            <h1>It's okay 😎</h1>
+            <p>You are still my friend 🤝😂</p>
         </div>
     `;
 }
