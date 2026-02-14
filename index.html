@@ -10,94 +10,98 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #141e30, #243b55);
     font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
     color: white;
-    overflow: hidden;
     text-align: center;
+    overflow: hidden;
 }
 
-.center-box {
+/* Centered section */
+.section {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: none;
-}
-
+/* Buttons */
 button {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
+    margin: 10px;
 }
 
 #yesBtn {
     background-color: #00c853;
     color: white;
     position: absolute;
-    left: 40%;
-    top: 60%;
 }
 
 #noBtn {
     background-color: #d50000;
     color: white;
     position: absolute;
-    left: 55%;
-    top: 60%;
 }
 </style>
 </head>
 
 <body>
 
-<div id="step1" class="center-box">
+<!-- Step 1 -->
+<div id="step1" class="section">
     <h2>Enter your name 😏</h2>
-    <input type="text" id="username" placeholder="Your name">
+    <input type="text" id="username" placeholder="Your name" style="padding:8px;border-radius:6px;border:none;">
     <br>
     <button onclick="startPrank()">Continue</button>
+</div>
+
+<!-- Step 2 -->
+<div id="step2" class="section" style="display:none;">
+    <h2 id="greeting"></h2>
+    <h1 style="margin-top:30px;">Are you Gay? 😏</h1>
+    <button id="yesBtn" onclick="yesClicked()">Yes</button>
+    <button id="noBtn">No</button>
 </div>
 
 <script>
 let personName = "";
 
+// Step 1 → Step 2
 function startPrank() {
-    personName = document.getElementById("username").value.trim();
-    if (personName === "") {
+    const input = document.getElementById("username").value.trim();
+    if (input === "") {
         alert("Enter your name first 😏");
         return;
     }
 
-    document.body.innerHTML = `
-        <h2 style="margin-top:60px;">
-            Hi ${personName}, how are you? <br>
-            I have an important question for you 😏
-        </h2>
+    personName = input;
 
-        <h1 style="margin-top:40px;">Are you Gay? 😏</h1>
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("step2").style.display = "block";
 
-        <button id="yesBtn" onclick="yesClicked()">Yes</button>
-        <button id="noBtn">No</button>
-    `;
+    document.getElementById("greeting").innerHTML =
+        `Hi ${personName}, how are you?<br>I have an important question for you 😏`;
+
+    // Position buttons initially
+    document.getElementById("yesBtn").style.left = "40%";
+    document.getElementById("yesBtn").style.top = "60%";
+
+    document.getElementById("noBtn").style.left = "55%";
+    document.getElementById("noBtn").style.top = "60%";
 
     activateNoButton();
 }
 
+// Infinite moving No button
 function activateNoButton() {
     const noBtn = document.getElementById("noBtn");
 
     function moveButton(e) {
         const rect = noBtn.getBoundingClientRect();
-
         const mouseX = e.touches ? e.touches[0].clientX : e.clientX;
         const mouseY = e.touches ? e.touches[0].clientY : e.clientY;
 
@@ -119,6 +123,7 @@ function activateNoButton() {
     document.addEventListener("touchmove", moveButton);
 }
 
+// Yes clicked
 function yesClicked() {
     document.body.innerHTML = `
         <div style="
@@ -129,13 +134,13 @@ function yesClicked() {
             flex-direction:column;
             background:linear-gradient(135deg,#ff512f,#dd2476);
             color:white;
-            padding:20px;
-            text-align:center;">
-            <h1 style="font-size:32px;">
-                Oh lelele 😂
-            </h1>
+            text-align:center;
+            padding:20px;">
+            <h1 style="font-size:32px;">Oh lelele 😂</h1>
             <p style="font-size:24px;">
-                Koi baat nahi ${personName} 🤝😎
+                Koi baat nahi ${personName}
+                You are still my friend !!
+                Raj has a big Heart 🤝😎
             </p>
         </div>
     `;
@@ -144,4 +149,3 @@ function yesClicked() {
 
 </body>
 </html>
-
