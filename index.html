@@ -17,12 +17,22 @@ body {
     overflow: hidden;
 }
 
-/* Centered section */
+/* Center everything */
 .section {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 90%;
+}
+
+/* Input styling */
+input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
 }
 
 /* Buttons */
@@ -32,13 +42,12 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin: 10px;
 }
 
 #yesBtn {
     background-color: #00c853;
     color: white;
-    position: absolute;
+    position: relative;
 }
 
 #noBtn {
@@ -46,25 +55,35 @@ button {
     color: white;
     position: absolute;
 }
+
+/* Button area so No button moves inside it */
+#buttonArea {
+    margin-top: 40px;
+    position: relative;
+    height: 200px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- Step 1 -->
+<!-- Step 1: Name Input -->
 <div id="step1" class="section">
     <h2>Enter your name 😏</h2>
-    <input type="text" id="username" placeholder="Your name" style="padding:8px;border-radius:6px;border:none;">
-    <br>
+    <input type="text" id="username" placeholder="Your name">
+    <br><br>
     <button onclick="startPrank()">Continue</button>
 </div>
 
-<!-- Step 2 -->
+<!-- Step 2: Question -->
 <div id="step2" class="section" style="display:none;">
     <h2 id="greeting"></h2>
     <h1 style="margin-top:30px;">Are you Gay? 😏</h1>
-    <button id="yesBtn" onclick="yesClicked()">Yes</button>
-    <button id="noBtn">No</button>
+
+    <div id="buttonArea">
+        <button id="yesBtn" onclick="yesClicked()">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
 </div>
 
 <script>
@@ -86,19 +105,13 @@ function startPrank() {
     document.getElementById("greeting").innerHTML =
         `Hi ${personName}, how are you?<br>I have an important question for you 😏`;
 
-    // Position buttons initially
-    document.getElementById("yesBtn").style.left = "40%";
-    document.getElementById("yesBtn").style.top = "60%";
-
-    document.getElementById("noBtn").style.left = "55%";
-    document.getElementById("noBtn").style.top = "60%";
-
     activateNoButton();
 }
 
-// Infinite moving No button
+// Make No button run infinitely
 function activateNoButton() {
     const noBtn = document.getElementById("noBtn");
+    const area = document.getElementById("buttonArea");
 
     function moveButton(e) {
         const rect = noBtn.getBoundingClientRect();
@@ -111,8 +124,8 @@ function activateNoButton() {
         );
 
         if (distance < 120) {
-            const maxX = window.innerWidth - noBtn.offsetWidth;
-            const maxY = window.innerHeight - noBtn.offsetHeight;
+            const maxX = area.offsetWidth - noBtn.offsetWidth;
+            const maxY = area.offsetHeight - noBtn.offsetHeight;
 
             noBtn.style.left = Math.random() * maxX + "px";
             noBtn.style.top = Math.random() * maxY + "px";
@@ -139,8 +152,8 @@ function yesClicked() {
             <h1 style="font-size:32px;">Oh lelele 😂</h1>
             <p style="font-size:24px;">
                 Koi baat nahi ${personName}
-                You are still my friend !!
-                Raj has a big Heart 🤝😎
+                You are still my friend
+                Bhaut Bada dil hai apna🤝😎
             </p>
         </div>
     `;
